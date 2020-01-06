@@ -81,11 +81,15 @@ Y = np.array(([1],[0],[1],[0],[1],[0]), dtype=float)
 
 '''
 All there is left to do now is create the network and train it! I'll use a loop that trains it 100 times
-and prints out the training progress every 10 iterations. This way, the improvement in accuracy we should
-be abe to see the improvement in accuracy.
+and prints out the training progress every 10 iterations. This isn't very visually satisfying, so I'll also 
+plot the loss function for each iteration, so we can see how the network converges on the optimal weights.
+To do this, we'll need to import pyplot from the matplotlib package.
 '''
 Network1 = Neural_Network(X, Y)
 
+import matplotlib.pyplot as plt 
+
+losses = []
 for n in range(100):
     if n % 10 == 0 or n == 0:
         print('\nIteration number ' + str(n) + '\n')
@@ -94,4 +98,7 @@ for n in range(100):
         print('Actual output: ' + str(Network1.output) + '\n')
         print ("Loss: " + str(np.mean(np.square(Y - Network1.feedforward()))) + '\n')
 
+    losses.append(np.mean(np.square(Y - Network1.feedforward())))
     Network1.train(X, Y)
+
+plt.plot(range(100), losses)
